@@ -33,6 +33,7 @@ public class DepthFirstPath implements Paths {
 		for(int x = v; x != s; x = prev[x]) {
 			path.add(0, x);
 		}
+		path.add(0, v);
 		return path;
 	}
 }

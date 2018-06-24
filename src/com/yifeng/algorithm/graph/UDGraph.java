@@ -39,7 +39,4 @@ public class UDGraph implements Graph{
 	public Iterable<Integer> adj(int v) {
 		return new LinkedList<Integer>(adj[v]);
 	}
-
-
-
 }

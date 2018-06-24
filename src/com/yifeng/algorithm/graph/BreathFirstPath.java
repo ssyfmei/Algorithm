@@ -16,8 +16,8 @@ public class BreathFirstPath implements Paths {
 	}
 	private void bfs(Graph graph, int s) {
 		Queue<Integer> queue = new LinkedList<>();
-		queue.add(s);
 		int lay = 1; layer[s]  = lay; 
+		queue.add(s);
 		while(!queue.isEmpty()) {
 			lay++;
 			int size = queue.size();
@@ -25,15 +25,14 @@ public class BreathFirstPath implements Paths {
 				int v = queue.poll();
 				for(int w: graph.adj(v)) {
 					if(layer[w] != 0) {
-						prev[w]  = v;
-						layer[w] = lay;
-						queue.add(w);
+					   prev [w]  = v;
+					   layer[w] = lay;
+					   queue.add(w);
 					}
 				}
 			}
 		}
 	}
-	
 	public boolean hasPathTo(int v) {
 		return layer[v] == 0;
 	}
@@ -43,6 +42,7 @@ public class BreathFirstPath implements Paths {
 		for(int x = v; x != s; x = prev[x]) {
 			path.add(0, x);
 		}
+		path.add(0, v);
 		return path;
 	}
 }
