@@ -27,7 +27,6 @@ public class Bipartite {
 		return true;
 	}
 	
-	
 	public boolean isBipartite() {
 		return isBipartite;
 	}
