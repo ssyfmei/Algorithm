@@ -20,7 +20,7 @@ public class Bipartite {
 				if(!dfs(w, graph))
 					return false;
 			} else if(color[w] == color[v]) {
-				isBipartite = false;
+				isBipartite = false; 
 				return false;
 			}
 		}
