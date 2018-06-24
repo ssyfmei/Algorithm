@@ -4,10 +4,9 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 public class TopologicalOrder {
-	boolean[] marked;
-	boolean[] onStack;
-	Deque<Integer> order;
-	boolean hasCycle;
+	private boolean[] marked;
+	private boolean[] onStack;
+	private Deque<Integer> order;
 	
 	public TopologicalOrder(DGraph graph) {
 		marked = new boolean[graph.V()];
@@ -22,15 +21,20 @@ public class TopologicalOrder {
 	private void dfs(int v, DGraph graph) {
 		marked[v] = true;
 		for(int w: graph.adj(v)) {
-			if(hasCycle) {
+			if(hasOrder()) {
 				return;
 			} else if(!marked[w]) {
 				dfs(w, graph);
 			} else if(onStack[w]) {
-				order    = null;
-				hasCycle = true;
+				order = null;
 			}
 		}
 		order.addFirst(v);
+	}
+	public Iterable<Integer> order(){
+		return order;
+	}
+	public boolean hasOrder() {
+		return this.order == null;
 	}
 }
