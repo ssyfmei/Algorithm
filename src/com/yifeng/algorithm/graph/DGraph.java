@@ -9,6 +9,9 @@ public class DGraph {
 	private int E;
 	private int V;
 	
+	public int E() {return E;}
+	public int V() {return V;}
+	
 	@SuppressWarnings("unchecked")
 	public DGraph(int V) {
 		this.V = V;

@@ -9,6 +9,9 @@ public class UDGraph implements Graph{
 	private int E;
 	private int V;
 	
+	public int E() {return E;}
+	public int V() {return V;}
+	
 	@SuppressWarnings("unchecked")
 	public UDGraph(int V) {
 		this.V = V;
