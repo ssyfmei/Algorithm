@@ -38,4 +38,13 @@ public class DGraph {
 	public Iterable<Integer> adj(int v) {
 		return new LinkedList<Integer>(adj[v]);
 	}
+	public DGraph reverse() {
+		DGraph reverseGraph = new DGraph(this.V());
+		for(int i = 0; i < this.V();i++) {
+			for(int w: this.adj(i)) {
+				reverseGraph.addEdge(w, i);
+			}
+		}
+		return reverseGraph;
+	}
 }
