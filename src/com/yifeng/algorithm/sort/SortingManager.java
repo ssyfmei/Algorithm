@@ -8,7 +8,9 @@ public class SortingManager {
 			return new SelectionSort();
 		} else if(str.equals("InsertionSort")) {
 			return new InsertionSort();
-		} else {
+		} else if(str.equals("ShellSort")) {
+			return new ShellSort();
+		}else {
 			throw new IllegalArgumentException("Unknown Sorting Method");
 		}
 	}
