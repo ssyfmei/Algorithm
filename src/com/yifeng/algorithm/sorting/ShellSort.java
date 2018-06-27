@@ -1,4 +1,4 @@
-package com.yifeng.algorithm.sort;
+package com.yifeng.algorithm.sorting;
 
 public class ShellSort implements Sort{
 	public  void sort(int[] a) {

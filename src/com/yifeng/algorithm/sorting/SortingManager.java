@@ -1,4 +1,4 @@
-package com.yifeng.algorithm.sort;
+package com.yifeng.algorithm.sorting;
 
 public class SortingManager {
 	public static Sort generate(String str) {

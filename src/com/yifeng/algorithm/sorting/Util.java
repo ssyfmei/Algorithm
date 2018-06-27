@@ -1,4 +1,4 @@
-package com.yifeng.algorithm.sort;
+package com.yifeng.algorithm.sorting;
 
 public class Util {
 	public static void exch(int[] a, int i, int j) {
