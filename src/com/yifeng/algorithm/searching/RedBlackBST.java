@@ -4,7 +4,8 @@ public class RedBlackBST<K extends Comparable<K>, V>  implements OrderedSymbolTa
 	private static final boolean RED   = false;
     private static final boolean BLACK = true;
     
-    private Entry<K, V> root = null;
+    private final Entry<K, V> nil;
+    private Entry<K, V> root;
     private int size;
     static final boolean valEquals(Object o1, Object o2) {
         return (o1==null ? o2==null : o1.equals(o2));
@@ -12,8 +13,9 @@ public class RedBlackBST<K extends Comparable<K>, V>  implements OrderedSymbolTa
     
     public RedBlackBST() {
     	this.size = 0;
+    	this.root = null;
+    	this.nil  = new Entry<K,V>(null, null, null,BLACK);
     }
-    
     
     
     static final class Entry<K,V> implements MapEntry<K,V> {
@@ -24,10 +26,11 @@ public class RedBlackBST<K extends Comparable<K>, V>  implements OrderedSymbolTa
         Entry<K,V> parent;
         boolean color = BLACK;
         
-        Entry(K key, V value, Entry<K,V> parent) {
+        Entry(K key, V value, Entry<K,V> parent, boolean color) {
             this.key = key;
             this.value = value;
             this.parent = parent;
+            this.color  = color;
         }
         
         public K getKey() {return key;}
@@ -75,9 +78,52 @@ public class RedBlackBST<K extends Comparable<K>, V>  implements OrderedSymbolTa
     
 	@Override
 	public void put(K key, V value) {
-		// TODO Auto-generated method stub
-		
+		put(key, value, root, this.nil);
 	}
+	private void put(K key, V value, Entry<K,V> node, Entry<K,V> parent) {
+		if(node == null) {
+			node = new Entry<K,V>(key, value, parent, RED);
+			adjust(node);
+		} else if(node.key.compareTo(key) == 0) {
+			node.value = value;
+		} else if(node.key.compareTo(key) > 0) {
+			put(key, value, node.left, node);
+		} else {
+			put(key, value, node.right, node);
+		}
+	}
+	private Entry<K, V> anotherChild(Entry<K, V> father, Entry<K, V> child) {
+		if(father.left == child) return father.right;
+		else return father.left;
+	}
+	private void flipColor(Entry<K, V> node) {
+		if(node.color==RED) node.color = BLACK;
+		else node.color = RED;
+	}
+	
+	private void  leftRotate() {
+		
+	};
+	private void rightRotate() {
+		
+	};
+	
+	
+	private void adjust(Entry<K, V> node) {
+		if(node.parent.color == BLACK) { return;}
+		Entry<K, V> gFather = node.parent.parent;
+		Entry<K, V> uncle = anotherChild(gFather, node.parent);
+		if(uncle.color == RED) {
+			flipColor(uncle);
+			flipColor(gFather);
+			flipColor(node.parent);
+			adjust(node.parent);
+		} else {
+			
+			
+		}
+	}
+	
 	
 	@Override
 	public void delete(K key) {
