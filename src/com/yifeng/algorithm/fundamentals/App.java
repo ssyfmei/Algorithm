@@ -4,10 +4,12 @@ import java.util.Iterator;
 
 public class App {
 	public static void main(String[] args) {
-		ArrayStack<Integer>arrayStack = new ArrayStack<>();
+		ArrayQueue<Integer>arrayStack = new ArrayQueue<>();
 		
-		for(int i = 0 ; i < 30; i++) {
-			arrayStack.push(i);
+		for(int i = 0 ; i < 4; i++) {
+			arrayStack.enqueue(i);
+			arrayStack.enqueue(i);
+			arrayStack.dequeue();
 		}
 		
 		Iterator<Integer> iterator = arrayStack.iterator();
@@ -15,9 +17,6 @@ public class App {
 			System.out.println(iterator.next());
 		}
 		
-		for(int i = 0 ; i < 30; i++) {
-			arrayStack.pop();
-		}
 		System.out.println(arrayStack.size());
 	}
 }

@@ -2,7 +2,7 @@ package com.yifeng.algorithm.fundamentals;
 
 import java.util.Iterator;
 
-public class LinkedQueue implements Queue<Item> {
+public class LinkedQueue<Item> implements Queue<Item> {
 
 	@Override
 	public Item peek() {

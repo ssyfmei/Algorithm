@@ -6,7 +6,7 @@ import java.util.NoSuchElementException;
 
 @SuppressWarnings("unchecked")
 public class ArrayStack<Item> implements Stack<Item> {
-	private static int initialSize = 16;
+	private static final int initialSize = 16;
 	private int size;
 	private Object[] items;
 	

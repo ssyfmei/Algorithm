@@ -1,43 +1,86 @@
 package com.yifeng.algorithm.fundamentals;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class ArrayQueue<Item>  implements Queue<Item> {
-
-	@Override
+	private static final int initialSize = 16;
+	private int last;
+	private int first;
+	private int size;
+	private Object[] items;
+	
+	public ArrayQueue() {
+		last  = 0;
+		first = -1;
+		size  = 0;
+		items = new Object[initialSize];
+	}
+	
+	@SuppressWarnings("unchecked")
 	public Item peek() {
-		// TODO Auto-generated method stub
-		return null;
+		if(isEmpty()) throw new NoSuchElementException();
+		else return (Item) items[last];
 	}
 
-	@Override
+	@SuppressWarnings("unchecked")
 	public Item dequeue() {
-		// TODO Auto-generated method stub
-		return null;
+		if(isEmpty()) throw new NoSuchElementException();
+		else {
+			Item val = (Item) items[last];
+			items[last] = null; 
+			last = (last + 1) % items.length;
+			size--;
+			if(size > initialSize && size < items.length/4)
+				resize(items.length/2);
+			return val;
+		}
 	}
-
+	
 	@Override
 	public void enqueue(Item item) {
-		// TODO Auto-generated method stub
-		
+		if(size == items.length) {
+			resize(2 * items.length);
+		}
+		size++;
+		first = (first + 1) % items.length;
+		items[first] = item;
 	}
-
+	
+	private void resize(int capacity) {
+		Object[] a = new Object[capacity];
+		for(int i = 0; i < size; i++) {
+			a[i] = items[(last+i) % items.length]; 
+		}
+		items = a;
+		last  = 0;
+		first = size - 1;
+	}
+	
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return size;
 	}
-
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return size == 0;
 	}
 
 	@Override
 	public Iterator<Item> iterator() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Iterator<Item>() {
+			private int cur = 0;
+			@Override
+			public boolean hasNext() {
+				return cur < size;
+			}
+			@Override
+			public Item next() {
+				if(!hasNext()) throw new NoSuchElementException();
+				Item val = (Item)items[(cur + last)%items.length]; 
+				cur++;
+				return val;
+			}
+		};
 	}
-
 }
