@@ -4,9 +4,9 @@ import java.util.Iterator;
 
 public class App {
 	public static void main(String[] args) {
-		ArrayQueue<Integer>arrayStack = new ArrayQueue<>();
+		Queue<Integer>arrayStack = new LinkedQueue<>();
 		
-		for(int i = 0 ; i < 4; i++) {
+		for(int i = 0 ; i < 10; i++) {
 			arrayStack.enqueue(i);
 			arrayStack.enqueue(i);
 			arrayStack.dequeue();

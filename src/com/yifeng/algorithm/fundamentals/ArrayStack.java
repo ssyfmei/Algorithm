@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-@SuppressWarnings("unchecked")
 public class ArrayStack<Item> implements Stack<Item> {
 	private static final int initialSize = 16;
 	private int size;
