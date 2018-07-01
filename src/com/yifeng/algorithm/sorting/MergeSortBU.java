@@ -26,10 +26,10 @@ public class MergeSortBU implements Sort {
 		int i = lo;
 		int j = mid + 1;
 		for(int idx = lo; idx <= hi; idx++) {
-			if(i > mid) {				 a[idx] = aux[j++]; 
-			} else if(j > hi) {			 a[idx] = aux[i++]; 
-			} else if(aux[i] < aux[j]){  a[idx] = aux[i++]; 
-			} else {					 a[idx] = aux[j++]; 
+			if(i > mid) {			a[idx] = aux[j++]; 
+			} else if(j > hi) {		a[idx] = aux[i++]; 
+			} else if(aux[i] < aux[j]){ 	a[idx] = aux[i++]; 
+			} else {			a[idx] = aux[j++]; 
 			}
 		}
 	}
