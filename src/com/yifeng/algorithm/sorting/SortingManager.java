@@ -10,8 +10,10 @@ public class SortingManager {
 			return new InsertionSort();
 		} else if(str.equals("ShellSort")) {
 			return new ShellSort();
-		} else if(str.equals("MergeSort1")) {
+		} else if(str.equals("MergeSort")) {
 			return new MergeSort();
+		} else if(str.equals("MergeSortBU")){
+			return new MergeSortBU();
 		} else {
 			throw new IllegalArgumentException("Unknown Sorting Method");
 		}
