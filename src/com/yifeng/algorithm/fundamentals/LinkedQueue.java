@@ -1,10 +1,7 @@
 package com.yifeng.algorithm.fundamentals;
 
-import java.awt.List;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
-
 
 public class LinkedQueue<Item> implements Queue<Item> {
 	private int size;
