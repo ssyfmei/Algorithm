@@ -14,6 +14,8 @@ public class SortingManager {
 			return new MergeSort();
 		} else if(str.equals("MergeSortBU")){
 			return new MergeSortBU();
+		} else if(str.equals("QuickSort")){
+			return new QuickSortNew();
 		} else {
 			throw new IllegalArgumentException("Unknown Sorting Method");
 		}
