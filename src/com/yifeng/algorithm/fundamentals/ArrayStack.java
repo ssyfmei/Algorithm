@@ -13,7 +13,8 @@ public class ArrayStack<Item> implements Stack<Item> {
 		size = 0;
 		items=new Object[initialSize];
 	}
-	@Override
+	
+	@SuppressWarnings("unchecked")
 	public Item pop() {
 		if(isEmpty()) throw new NoSuchElementException();
 		Item val = (Item) items[size - 1];

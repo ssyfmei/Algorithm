@@ -18,7 +18,7 @@ public class QuickSortNew implements Sort {
 		int v = a[lo];
 		int i = lo + 1, j = hi;
 		while(i <= j) {
-			while(j >= lo && a[j] > v) j--;
+			while(j >= lo && a[j] >  v)  j--;
 			while(i <= hi && a[i] <= v) i++;
 			if(i < j) Util.exch(a, i++, j--); 
 		}

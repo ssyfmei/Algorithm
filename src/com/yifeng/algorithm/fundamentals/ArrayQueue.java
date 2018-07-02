@@ -37,7 +37,6 @@ public class ArrayQueue<Item>  implements Queue<Item> {
 		}
 	}
 	
-	@Override
 	public void enqueue(Item item) {
 		if(size == items.length) {
 			resize(2 * items.length);
@@ -57,27 +56,23 @@ public class ArrayQueue<Item>  implements Queue<Item> {
 		first = size - 1;
 	}
 	
-	@Override
 	public int size() {
 		return size;
 	}
-	@Override
 	public boolean isEmpty() {
 		return size == 0;
 	}
 
-	@Override
 	public Iterator<Item> iterator() {
 		return new Iterator<Item>() {
 			private int cur = 0;
-			@Override
 			public boolean hasNext() {
 				return cur < size;
 			}
-			@Override
+			@SuppressWarnings("unchecked")
 			public Item next() {
 				if(!hasNext()) throw new NoSuchElementException();
-				Item val = (Item)items[(cur + last)%items.length]; 
+				Item val = (Item)items[(cur + last) % items.length]; 
 				cur++;
 				return val;
 			}
