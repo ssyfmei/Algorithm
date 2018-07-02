@@ -15,12 +15,12 @@ public class QuickSortNew implements Sort {
 		int pivot = (hi + lo) >>> 1;
 		Util.exch(a, lo, pivot);
 		
-		int v = a[pivot];
+		int v = a[lo];
 		int i = lo + 1, j = hi;
 		while(i <= j) {
-			Util.exch(a, i, j);
-			while(a[j]  > v) j--;
-			while(a[i] <= v) i++;
+			while(j >= lo && a[j] > v) j--;
+			while(i <= hi && a[i] <= v) i++;
+			if(i < j) Util.exch(a, i++, j--); 
 		}
 		Util.exch(a, lo, j);
 		partition(a, lo, j - 1);
