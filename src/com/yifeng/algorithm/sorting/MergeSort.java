@@ -1,7 +1,8 @@
 package com.yifeng.algorithm.sorting;
+
 import java.util.Arrays;
+
 public class MergeSort implements Sort {
-	private static final int cut = 7;
 	public void sort(int[] a) {
 		int[] aux = Arrays.copyOf(a, a.length);
 		sort(a, aux, 0, a.length - 1);
@@ -25,6 +26,4 @@ public class MergeSort implements Sort {
 			}
 		}
 	}
-	
-	
 }

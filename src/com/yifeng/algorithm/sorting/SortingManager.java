@@ -20,6 +20,8 @@ public class SortingManager {
 			return new QuickSortNew();
 		} else if(str.equals("QuickSortThreeWay")){
 			return new QuickSortThreeWay();
+		} else if(str.equals("HeapSort")){
+			return new HeapSort();
 		} else {
 			throw new IllegalArgumentException("Unknown Sorting Method");
 		}

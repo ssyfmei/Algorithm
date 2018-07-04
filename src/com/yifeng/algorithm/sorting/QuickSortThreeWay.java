@@ -7,7 +7,7 @@ public class QuickSortThreeWay implements Sort {
 		sort(a, 0, a.length - 1);
 	}
 	public void sort(int[] a, int lo, int hi) {
-		partitionNew(a, lo, hi);
+		partitionThreeWay(a, lo, hi);
 	}
 	public void partitionThreeWay(int[] a, int lo, int hi) {
 		if(lo >= hi) return;
@@ -20,21 +20,5 @@ public class QuickSortThreeWay implements Sort {
 		}
 		partitionThreeWay(a, lo, lt - 1);
 		partitionThreeWay(a, gt + 1 , hi);
-	}
-	public void partitionNew(int[] a, int lo, int hi) {
-		if(lo >= hi) return;
-		int lt = lo, gt = hi, i = lo + 1;
-		int v = a[lt];
-		while(i <= gt) {
-			while(i < gt && a[gt] > v) {gt--;}
-			if(a[i] < v)
-				Util.exch(a, i++, lt++);
-			else if(a[i] > v) 
-				Util.exch(a, i, gt--);
-			else 
-				i++;
-		}
-		partitionNew(a, lo, lt - 1);
-		partitionNew(a, gt + 1 , hi);
 	}
 }
