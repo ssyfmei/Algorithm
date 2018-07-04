@@ -1,4 +1,4 @@
-package com.yifeng.stringsorting;
+package com.yifeng.algorithm.stringsorting;
 
 public class LSD {
 	// Sorting Strings of the same length

@@ -1,6 +1,6 @@
-package com.yifeng.stringsorting;
+package com.yifeng.algorithm.stringsorting;
 
-public class Quick3string {
+public class MSD {
 	// terrific trick
 	private static int charAt(String s, int d) {
 		
