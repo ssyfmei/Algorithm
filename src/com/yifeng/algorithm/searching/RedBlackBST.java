@@ -101,11 +101,15 @@ public class RedBlackBST<K extends Comparable<K>, V>  implements OrderedSymbolTa
 		else node.color = RED;
 	}
 	
-	private void  leftRotate() {
-		
+	private void  leftRotate(Entry<K, V> p) {
+		if(p != null) {
+			
+		}
 	};
-	private void rightRotate() {
-		
+	private void rightRotate(Entry<K, V> p) {
+		if(p != null) {
+			
+		}
 	};
 	
 	
@@ -124,14 +128,11 @@ public class RedBlackBST<K extends Comparable<K>, V>  implements OrderedSymbolTa
 		}
 	}
 	
-	
 	@Override
 	public void delete(K key) {
 		// TODO Auto-generated method stub
 		
 	}
-	
-	
 	
 	@Override
 	public V get(K key) {

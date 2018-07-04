@@ -14,15 +14,9 @@ public class QuickSortThreeWay implements Sort {
 		int lt = lo, gt = hi, i = lo + 1;
 		int v = a[lt];
 		while(i <= gt) {
-			if(a[i] < v) {
-				Util.exch(a, i++, lt++);
-			}
-			else if(a[i] > v) {
-				Util.exch(a, i, gt--);
-			}
-			else {
-				i++;
-			}
+			if(a[i] < v) { Util.exch(a, i++, lt++);}
+			else if(a[i] > v) { Util.exch(a, i, gt--);}
+			else { i++;}
 		}
 		partitionThreeWay(a, lo, lt - 1);
 		partitionThreeWay(a, gt + 1 , hi);
@@ -32,16 +26,13 @@ public class QuickSortThreeWay implements Sort {
 		int lt = lo, gt = hi, i = lo + 1;
 		int v = a[lt];
 		while(i <= gt) {
-			if(a[i] < v) {
+			while(i < gt && a[gt] > v) {gt--;}
+			if(a[i] < v)
 				Util.exch(a, i++, lt++);
-			}
-			else if(a[i] > v) {
-				while(a[gt] > v) {gt--;}
+			else if(a[i] > v) 
 				Util.exch(a, i, gt--);
-			}
-			else {
+			else 
 				i++;
-			}
 		}
 		partitionNew(a, lo, lt - 1);
 		partitionNew(a, gt + 1 , hi);

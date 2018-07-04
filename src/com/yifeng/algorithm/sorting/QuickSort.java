@@ -4,7 +4,6 @@ public class QuickSort implements Sort{
 	public void sort(int[] a) {
 		sort(a, 0, a.length - 1);
 	}
-	
 	public void sort(int[] a, int lo, int hi) {
 		if(hi - lo < 7) {new InsertionSort().sort(a,lo,hi);return;}
 		int pivot = (hi + lo) >>> 1;
