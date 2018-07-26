@@ -31,6 +31,8 @@ public class RedBlackBST<K extends Comparable<K>, V>{
             this.value = value;
             this.parent = parent;
             this.color  = color;
+            left = null;
+            right= null;
         }
         
         public K getKey() {return key;}
@@ -94,28 +96,50 @@ public class RedBlackBST<K extends Comparable<K>, V>{
 		}
 		return node;
 	}
+	
 	private Entry<K, V> anotherChild(Entry<K, V> father, Entry<K, V> child) {
 		if(father.left == child) return father.right;
 		else return father.left;
 	}
+	
 	private void flipColor(Entry<K, V> node) {
 		if(node.color==RED) node.color = BLACK;
 		else node.color = RED;
 	}
 	
 	private void leftRotate(Entry<K, V> p) {
-		if(p != null && p.right != null) {
-			Entry<K,V> right = p.right;
-			p.right = right.left;
-			right.left = p;
+		Entry<K,V> right = p.right;
+		p.right = right.left;
+		if(p.right != null) {
+			p.right.parent = p;
 		}
+		right.parent = p.parent;
+		if(right.parent == null) {
+			this.root = right;
+		} else if(p == p.parent.left) {
+			p.parent.left = right;
+		} else {
+			p.parent.right = right;
+		}
+		right.left = p;
+		p.parent = right;
 	}
 	private void rightRotate(Entry<K, V> p) {
-		if(p != null && p.left != null) {
-			Entry<K, V> left = p.left;
-			p.left = left.right;
-			left.right = p;
+		Entry<K,V> left = p.left;
+		p.left = left.right;
+		if(p.left != null) {
+			p.left.parent = p;
 		}
+		left.parent = p.parent;
+		if(left.parent == null) {
+			this.root = left;
+		} else if(p == p.parent.left) {
+			p.parent.left = left;
+		} else {
+			p.parent.right = left;
+		}
+		left.right = p;
+		p.parent = left;
 	}
 	
 	private void adjust(Entry<K, V> node) {
@@ -129,21 +153,32 @@ public class RedBlackBST<K extends Comparable<K>, V>{
 			flipColor(node.parent);
 			adjust(gFather);
 		} else if (valEquals(gFather.right, uncle)){
-			if(node.parent.right == node) {
+			if(valEquals(node.parent.right, node)) {
 				node = node.parent;
 				leftRotate(node);
 			}
-			rightRotate(gFather);
 			flipColor(gFather);
 			flipColor(node.parent);
+			rightRotate(gFather);
 		} else {
-			if(valEquals(gFather.left, uncle)) {
+			if(valEquals(node.parent.left, node)) {
 				node = node.parent;
 				rightRotate(node);
 			}
 			leftRotate(gFather);
 			flipColor(gFather);
 			flipColor(node.parent);
+		}
+	}
+	
+	public int height() {
+		return height(root);
+	}
+	private int height(Entry<K, V> node) {
+		if(node == null) {
+			return 0;
+		} else {
+			return Math.max(height(node.left), height(node.right)) + 1;
 		}
 	}
 	

@@ -13,6 +13,6 @@ public class App {
 			System.out.println(item);
 			map.put(i, Integer.toString(item));
 		}
-		System.out.println(map.getFirst().value);
+		System.out.println(map.height());
 	}
 }
