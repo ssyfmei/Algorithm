@@ -1,5 +1,7 @@
 package com.yifeng.algorithm.searching;
 
+import java.util.NoSuchElementException;
+
 public class RedBlackBST<K extends Comparable<K>, V>  implements OrderedSymbolTable<K, V> {
 	private static final boolean RED   = false;
     private static final boolean BLACK = true;
@@ -16,7 +18,6 @@ public class RedBlackBST<K extends Comparable<K>, V>  implements OrderedSymbolTa
     	this.root = null;
     	this.nil  = new Entry<K,V>(null, null, null,BLACK);
     }
-    
     
     static final class Entry<K,V> implements MapEntry<K,V> {
         K key;
@@ -81,16 +82,7 @@ public class RedBlackBST<K extends Comparable<K>, V>  implements OrderedSymbolTa
 		put(key, value, root, this.nil);
 	}
 	private void put(K key, V value, Entry<K,V> node, Entry<K,V> parent) {
-		if(node == null) {
-			node = new Entry<K,V>(key, value, parent, RED);
-			adjust(node);
-		} else if(node.key.compareTo(key) == 0) {
-			node.value = value;
-		} else if(node.key.compareTo(key) > 0) {
-			put(key, value, node.left, node);
-		} else {
-			put(key, value, node.right, node);
-		}
+		
 	}
 	private Entry<K, V> anotherChild(Entry<K, V> father, Entry<K, V> child) {
 		if(father.left == child) return father.right;
@@ -101,17 +93,20 @@ public class RedBlackBST<K extends Comparable<K>, V>  implements OrderedSymbolTa
 		else node.color = RED;
 	}
 	
-	private void  leftRotate(Entry<K, V> p) {
-		if(p != null) {
-			
+	private void leftRotate(Entry<K, V> p) {
+		if(p != null && p.right != null) {
+			Entry<K,V> right = p.right;
+			p.right = right.left;
+			right.left = p;
 		}
 	};
 	private void rightRotate(Entry<K, V> p) {
-		if(p != null) {
-			
+		if(p != null && p.left != null) {
+			Entry<K, V> left = p.left;
+			p.left = left.right;
+			left.right = p;
 		}
 	};
-	
 	
 	private void adjust(Entry<K, V> node) {
 		if(node.parent.color == BLACK) { return;}
@@ -136,18 +131,31 @@ public class RedBlackBST<K extends Comparable<K>, V>  implements OrderedSymbolTa
 	
 	@Override
 	public V get(K key) {
-		// TODO Auto-generated method stub
-		return null;
+		return get(key, root);
 	}
-
+	
+	private V get(K key, Entry<K, V> node){
+		if(valEquals(node, nil)) {
+			throw new NoSuchElementException("the given key doesn't exist");
+		}
+		else if(key.compareTo(node.key) < 0) {
+			return get(key, node.left);
+		}
+		else if(key.compareTo(node.key) > 0) {
+			return get(key, node.right);
+		}
+		else {
+			return node.getValue();
+		}
+	}
 	
 	@Override
 	public boolean containsKey(K key) {
 		return containsKey(key, root);
 	}
 	
-	public boolean containsKey(K key, Entry<K, V> node) {
-		if(node == null) {
+	private boolean containsKey(K key, Entry<K, V> node) {
+		if(valEquals(node, nil)) {
 			return false;
 		} else if(node.key.compareTo(key)==0) {
 			return true;
@@ -165,8 +173,7 @@ public class RedBlackBST<K extends Comparable<K>, V>  implements OrderedSymbolTa
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return size;
 	}
 
 	@Override
