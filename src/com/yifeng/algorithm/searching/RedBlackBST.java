@@ -2,9 +2,11 @@ package com.yifeng.algorithm.searching;
 
 import java.util.NoSuchElementException;
 
+
 public class RedBlackBST<K extends Comparable<K>, V>{
 	private static final boolean RED   = false;
     private static final boolean BLACK = true;
+    
     
     private Entry<K, V> root;
     private int size;
@@ -79,22 +81,33 @@ public class RedBlackBST<K extends Comparable<K>, V>{
     
 	public void put(K key, V value) {
 		if(key == null) throw new NullPointerException();
-		root = put(key, value, root, null);
-	}
-	private Entry<K,V> put(K key, V value, Entry<K,V> node, Entry<K,V> parent) {
-		if(node == null) {
-			node = new Entry<K, V>(key, value, parent, RED);
-			adjust(node);
+		Entry<K, V> node = root;
+		Entry<K, V> parent = null;
+		
+		if(root == null) {
+			root = new Entry<K, V>(key, value, parent, BLACK);
 			size++;
-			return node;
-		} else if(node.key.compareTo(key)==0) {
-			node.value = value;
-		} else if(node.key.compareTo(key)>0) {
-			node.left = put(key, value, node.left, node);
-		} else {
-			node.right = put(key, value, node.right, node);
+			return;
 		}
-		return node;
+		
+		while(node != null) {
+			parent = node;
+			if(node.key == key) {
+				node.value = value;return;
+			}else if(node.key.compareTo(key) < 0) {
+				node = node.right;
+			}else {
+				node = node.left;
+			}
+		}
+		if(parent.key.compareTo(key) > 0) {
+			parent.left = new Entry<K, V>(key, value, parent, RED);
+			adjust(parent.left);
+		} else {
+			parent.right = new Entry<K, V>(key, value, parent, RED);
+			adjust(parent.right);
+		}
+		size++;
 	}
 	
 	private Entry<K, V> anotherChild(Entry<K, V> father, Entry<K, V> child) {
@@ -165,9 +178,9 @@ public class RedBlackBST<K extends Comparable<K>, V>{
 				node = node.parent;
 				rightRotate(node);
 			}
-			leftRotate(gFather);
 			flipColor(gFather);
 			flipColor(node.parent);
+			leftRotate(gFather);
 		}
 	}
 	
@@ -182,10 +195,130 @@ public class RedBlackBST<K extends Comparable<K>, V>{
 		}
 	}
 	
+	private void transplant(Entry<K, V> u, Entry<K, V> v) {
+		if(u.parent == null) {
+			this.root = v;
+		}
+		else if(u == u.parent.left) {
+			u.parent.left = v;
+		}
+		else {
+			u.parent.right = v;
+		}
+		if(v != null)
+			v.parent = u.parent;
+	}
+	private Entry<K, V> treeMinimum(Entry<K, V> node) {
+		while(node.left != null) {
+			node = node.left;
+		}
+		return node;
+	}
 	public void delete(K key) {
-		
+		delete(key, root);
+	}
+	private void delete(K key, Entry<K, V> node) {
+		if(node == null) {
+			throw new NoSuchElementException();
+		} else if(key == node.key) {
+			delete(node);
+		} else if(key.compareTo(node.key) < 0) {
+			delete(key, node.left);
+		} else {
+			delete(key, node.right);
+		}
 	}
 	
+	public void delete(Entry<K, V> rnode) {
+		Entry<K, V> node = rnode;
+		Entry<K, V> x;
+		boolean oldColor = node.color;
+		
+		if(rnode.left == null) {
+			x = rnode.right;
+			transplant(rnode, x);
+		} else if(rnode.right == null) {
+			x = rnode.left;
+			transplant(rnode, x);
+		} else {
+			node = treeMinimum(rnode.right);
+			oldColor = node.color;
+			x = node.right;
+			
+			if(node.parent == rnode) {
+				x.parent = node;
+			}
+			else{
+				transplant(node, node.right);
+				node.right = rnode.right;
+				node.right.parent = node;
+			}
+			transplant(rnode, node);
+			node.left = rnode.left;
+			node.left.parent = node;
+			node.color = rnode.color;
+		}
+		if(oldColor == BLACK)
+			deleteAdjust(x);
+	}
+	
+	private void deleteAdjust(Entry<K, V> x) {
+		if(x == null) return;
+		while(x != this.root && x.color == BLACK) {
+			if(x == x.parent.left) {
+				Entry<K, V> sibling = x.parent.right;
+				if(sibling.color == RED) {
+					flipColor(sibling);
+					flipColor(x.parent);
+					leftRotate(x.parent);
+					sibling = x.parent.right;
+				}
+				if(sibling.left.color == BLACK &&sibling.right.color== BLACK) {
+					sibling.color = RED;
+					x = x.parent;
+				}
+				else {
+					if(sibling.right.color == BLACK) {
+						flipColor(sibling.left);
+						flipColor(sibling);
+						rightRotate(sibling);
+						sibling = x.parent.right;
+					}
+					sibling.color = x.parent.color;
+					x.parent.color= BLACK;
+					flipColor(sibling.right);
+					leftRotate(x.parent);
+					x = this.root;
+				}
+			}
+			else {
+				Entry<K, V> sibling = x.parent.left;
+				if(sibling.color == RED) {
+					flipColor(x.parent);
+					flipColor(sibling);
+					rightRotate(x.parent);
+					sibling = x.parent.left;
+				}
+				if(sibling.right.color ==BLACK && sibling.left.color ==BLACK) {
+					sibling.color = RED;
+					x = x.parent;
+				}
+				else {
+					if(sibling.left.color == BLACK) {
+						flipColor(sibling);
+						flipColor(sibling.right);
+						leftRotate(sibling);
+					}
+					sibling.color = x.parent.color;
+					x.parent.color = BLACK;
+					flipColor(sibling.left);
+					rightRotate(x.parent);
+					x = this.root;
+				}
+			}
+		}
+		x.color = BLACK;
+	}
 	public V get(K key) {
 		return get(key, root);
 	}
@@ -215,9 +348,9 @@ public class RedBlackBST<K extends Comparable<K>, V>{
 		} else if(node.key.compareTo(key)==0) {
 			return true;
 		} else if(node.key.compareTo(key)>0) {
-			return containsKey(key, node.right);
-		} else {
 			return containsKey(key, node.left);
+		} else {
+			return containsKey(key, node.right);
 		}
 	}
 

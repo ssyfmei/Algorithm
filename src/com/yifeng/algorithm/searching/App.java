@@ -7,11 +7,12 @@ public class App {
 		RedBlackBST<Integer, String> map = new RedBlackBST<>();
 		
 		Random random = new Random();
-		
-		for(int i = 0; i < 10; i++) {
+		for(int i = 0; i < 10000; i++) {
 			int item = random.nextInt(10);
-			System.out.println(item);
 			map.put(i, Integer.toString(item));
+			if(i % 3 == 0){
+				map.delete(i);
+			}
 		}
 		System.out.println(map.height());
 	}
